@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ASE_AttendanceTracker</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_login">Login</string>
+</resources>
