@@ -25,11 +25,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".activity.TutorialListActivity" android:parentActivityName=".MainActivity">
-
+        <activity
+            android:name=".activity.TutorialListActivity"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".activity.DisplayQRCodeActivity" android:parentActivityName=".activity.DisplayQRCodeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.DisplayQRCodeActivity" />
         </activity>
     </application>
 

@@ -1,10 +1,13 @@
 package attendancetracker.ase.com.ase_attendancetracker;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by Sangeeta on 17-12-2017.
  */
 
-public class SingleAttendanceDetails {
+public class SingleAttendanceDetails implements Comparable{
+
 
     private String id;
     private String studentId;
@@ -14,13 +17,7 @@ public class SingleAttendanceDetails {
 
     @Override
     public String toString() {
-        return "SingleAttendanceDetails{" +
-                "id='" + id + '\'' +
-                ", studentId='" + studentId + '\'' +
-                ", weekId=" + weekId +
-                ", presented=" + presented +
-                ", token='" + token + '\'' +
-                '}';
+        return "Week " + weekId;
     }
 
     public String getStudentId() {
@@ -63,4 +60,12 @@ public class SingleAttendanceDetails {
     public void setToken(String token) {
         this.token = token;
     }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        int compareage=((SingleAttendanceDetails)o).getWeekId();
+        /* For Ascending order*/
+        return this.weekId-compareage;
+    }
+
 }
