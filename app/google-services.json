@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "1096443743608",
+    "project_id": "aseattendancetracker"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096443743608:android:f1ca86086ce26691",
+        "android_client_info": {
+          "package_name": "attendancetracker.ase.com.asd_attendancetracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096443743608-n4tf5u2e08aipdgpsp0t2r4rlv7gb4e9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "attendancetracker.ase.com.asd_attendancetracker",
+            "certificate_hash": "7b3c967ce2ffc626505461ec5780e744e5a8b4a7"
+          }
+        },
+        {
+          "client_id": "1096443743608-9r78iplqtsfpimke32m9eifvrknpfmpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJrD9SRSXMznS-Jw6OJxwS9tWy6jYfHr4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1096443743608:android:87f65ce08665cce1",
+        "android_client_info": {
+          "package_name": "attendancetracker.ase.com.ase_attendancetracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1096443743608-2e8ouaj6lisdcndo5r61scp123le4jch.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "attendancetracker.ase.com.ase_attendancetracker",
+            "certificate_hash": "7b3c967ce2ffc626505461ec5780e744e5a8b4a7"
+          }
+        },
+        {
+          "client_id": "1096443743608-9r78iplqtsfpimke32m9eifvrknpfmpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJrD9SRSXMznS-Jw6OJxwS9tWy6jYfHr4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

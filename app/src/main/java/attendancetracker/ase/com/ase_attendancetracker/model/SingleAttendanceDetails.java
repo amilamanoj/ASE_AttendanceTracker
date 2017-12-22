@@ -1,4 +1,4 @@
-package attendancetracker.ase.com.ase_attendancetracker;
+package attendancetracker.ase.com.ase_attendancetracker.model;
 
 import android.support.annotation.NonNull;
 

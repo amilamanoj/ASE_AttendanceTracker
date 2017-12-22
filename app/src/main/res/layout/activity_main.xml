@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="attendancetracker.ase.com.ase_attendancetracker.MainActivity">
+    tools:context="attendancetracker.ase.com.ase_attendancetracker.activity.LoginActivity">
 
     <EditText
         android:id="@+id/editText"
@@ -14,7 +14,7 @@
         android:layout_marginTop="248dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/edit_message"
+        android:text="@string/email_tooltip"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

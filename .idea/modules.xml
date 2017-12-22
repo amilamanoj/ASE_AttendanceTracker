@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ASE_AttendanceTracker.iml" filepath="$PROJECT_DIR$/ASE_AttendanceTracker.iml" />
+      <module fileurl="file://C:\Users\Tobias\tum\WS1718\AdvancedTopicsOfSoftwareEngineering\git-repository\atseAndroidApp\ASE_AttendanceTracker.iml" filepath="C:\Users\Tobias\tum\WS1718\AdvancedTopicsOfSoftwareEngineering\git-repository\atseAndroidApp\ASE_AttendanceTracker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/atseAndroidApp.iml" filepath="$PROJECT_DIR$/atseAndroidApp.iml" />
     </modules>
   </component>
 </project>
