@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
  * Created by Sangeeta on 17-12-2017.
  */
 
-public class SingleAttendanceDetails implements Comparable{
+public class Attendance implements Comparable{
 
 
     private String id;
@@ -63,7 +63,7 @@ public class SingleAttendanceDetails implements Comparable{
 
     @Override
     public int compareTo(@NonNull Object o) {
-        int compareage=((SingleAttendanceDetails)o).getWeekId();
+        int compareage=((Attendance)o).getWeekId();
         /* For Ascending order*/
         return this.weekId-compareage;
     }

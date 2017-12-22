@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import attendancetracker.ase.com.ase_attendancetracker.R;
-import attendancetracker.ase.com.ase_attendancetracker.model.SingleAttendanceDetails;
+import attendancetracker.ase.com.ase_attendancetracker.model.Attendance;
+import attendancetracker.ase.com.ase_attendancetracker.view.AttendancesListViewAdapter;
 
 public class AttendanceListActivity extends AppCompatActivity {
 
@@ -32,7 +33,7 @@ public class AttendanceListActivity extends AppCompatActivity {
     public static String WEEK_ID = "weekId";
 
     private ListView tutorialListView;
-    private ArrayList<SingleAttendanceDetails> appointments;
+    private ArrayList<Attendance> appointments;
     ImageView myImageView;
 
     private String studentId = "115816437810331465568";
@@ -50,7 +51,7 @@ public class AttendanceListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent intent = new Intent(AttendanceListActivity.this, DisplayQRCodeActivity.class);
-                SingleAttendanceDetails ad = appointments.get(position);
+                Attendance ad = appointments.get(position);
                 intent.putExtra(STUDENT_ID, studentId);
                 intent.putExtra(WEEK_ID, ad.getWeekId());
                 startActivity(intent);
@@ -84,11 +85,11 @@ public class AttendanceListActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             progressDialog.dismiss();
             Gson gson = new Gson();
-            appointments = gson.fromJson(result, new TypeToken<ArrayList<SingleAttendanceDetails>>() {
+            appointments = gson.fromJson(result, new TypeToken<ArrayList<Attendance>>() {
             }.getType());
             Collections.sort(appointments);
             //textView.setText(appointments[0].getStudentId().toString());
-            ArrayAdapter<SingleAttendanceDetails> adapter = new ArrayAdapter<SingleAttendanceDetails>(AttendanceListActivity.this, android.R.layout.test_list_item, appointments);
+            AttendancesListViewAdapter adapter = new AttendancesListViewAdapter(AttendanceListActivity.this, appointments);
             tutorialListView.setAdapter(adapter);
         }
 
