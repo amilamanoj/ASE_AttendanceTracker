@@ -1,30 +1,18 @@
-package attendancetracker.ase.com.ase_attendancetracker.activity;
+package attendancetracker.ase.com.ase_attendancetracker.view.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
-import android.view.WindowManager;
 import android.widget.ImageView;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import attendancetracker.ase.com.ase_attendancetracker.R;
-import attendancetracker.ase.com.ase_attendancetracker.qrcode.service.Contents;
-import attendancetracker.ase.com.ase_attendancetracker.qrcode.service.QRCodeEncoder;
 
 public class DisplayQRCodeActivity extends AppCompatActivity {
 

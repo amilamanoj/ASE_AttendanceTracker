@@ -1,4 +1,4 @@
-package attendancetracker.ase.com.ase_attendancetracker.activity;
+package attendancetracker.ase.com.ase_attendancetracker.view.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
