@@ -66,7 +66,7 @@ public class AttendanceDetailsListActivity extends AppCompatActivity {
 
         protected void onPostExecute(String result) {
             progressDialog.dismiss();
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setDateFormat("MM/dd/yy HH:mm a").setPrettyPrinting().create();
 
              attendanceDetailsArrayList = gson.fromJson(result, new TypeToken<ArrayList<AttendanceDetails>>() {
             }.getType());

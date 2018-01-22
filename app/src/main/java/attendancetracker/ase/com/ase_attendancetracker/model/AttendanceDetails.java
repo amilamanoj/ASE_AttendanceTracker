@@ -16,7 +16,7 @@ public class AttendanceDetails implements Comparable{
     private int weekId;
     private boolean presented;
     private String token;
-    private String date;
+    private Date date;
     private boolean attended;
 
     @Override
@@ -80,11 +80,11 @@ public class AttendanceDetails implements Comparable{
         this.attended = attended;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 }
