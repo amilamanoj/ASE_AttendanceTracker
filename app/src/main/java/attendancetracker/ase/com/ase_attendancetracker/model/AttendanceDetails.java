@@ -2,11 +2,13 @@ package attendancetracker.ase.com.ase_attendancetracker.model;
 
 import android.support.annotation.NonNull;
 
+import java.util.Date;
+
 /**
  * Created by Sangeeta on 17-12-2017.
  */
 
-public class Attendance implements Comparable{
+public class AttendanceDetails implements Comparable{
 
 
     private String id;
@@ -14,6 +16,8 @@ public class Attendance implements Comparable{
     private int weekId;
     private boolean presented;
     private String token;
+    private String date;
+    private boolean attended;
 
     @Override
     public String toString() {
@@ -63,9 +67,24 @@ public class Attendance implements Comparable{
 
     @Override
     public int compareTo(@NonNull Object o) {
-        int compareage=((Attendance)o).getWeekId();
+        int compareage=((AttendanceDetails)o).getWeekId();
         /* For Ascending order*/
         return this.weekId-compareage;
     }
 
+    public boolean isAttended() {
+        return attended;
+    }
+
+    public void setAttended(boolean attended) {
+        this.attended = attended;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 }

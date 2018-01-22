@@ -1,17 +1,16 @@
-package attendancetracker.ase.com.ase_attendancetracker.view;
+package attendancetracker.ase.com.ase_attendancetracker.view.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
 
 import attendancetracker.ase.com.ase_attendancetracker.R;
-import attendancetracker.ase.com.ase_attendancetracker.model.Attendance;
+import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
 
 /**
  * Created by Tobias on 12/22/2017.
@@ -19,23 +18,23 @@ import attendancetracker.ase.com.ase_attendancetracker.model.Attendance;
 
 public class AttendancesListViewAdapter extends BaseAdapter {
 
-    private List<Attendance> attendances;
+    private List<AttendanceDetails> attendanceDetails;
     private Context context;
 
-    public AttendancesListViewAdapter(Context context, List<Attendance> attendances) {
-        this.attendances = attendances;
+    public AttendancesListViewAdapter(Context context, List<AttendanceDetails> attendanceDetails) {
+        this.attendanceDetails = attendanceDetails;
         this.context = context;
     }
 
 
     @Override
     public int getCount() {
-        return attendances.size();
+        return attendanceDetails.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return attendances.get(position);
+        return attendanceDetails.get(position);
     }
 
     @Override
@@ -49,8 +48,8 @@ public class AttendancesListViewAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View item = inflater.inflate(R.layout.attendance_list_item, parent, false);
         TextView tv = item.findViewById(R.id.item_header);
-        Attendance attendance = (Attendance) getItem(position);
-        tv.setText(attendance.toString());
+        AttendanceDetails attendanceDetails = (AttendanceDetails) getItem(position);
+        tv.setText(attendanceDetails.toString());
         return item;
     }
 }
