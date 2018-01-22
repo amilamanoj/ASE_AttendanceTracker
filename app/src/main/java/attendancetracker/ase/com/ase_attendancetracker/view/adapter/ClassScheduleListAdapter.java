@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import attendancetracker.ase.com.ase_attendancetracker.R;
 import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
@@ -47,7 +48,13 @@ import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
             holder.presentedImg.setVisibility(View.INVISIBLE);
             holder.presentedText.setVisibility(View.INVISIBLE);
         }
-        if (attendanceDetails.isAttended())
+
+        if (attendanceDetails.getDate().compareTo(new Date()) > 0)
+        {
+            holder.presentOrAbsentImg.setImageResource(R.drawable.not_yet_held_icon);
+            holder.prentOrAbsentText.setText("Not yet held");
+        }
+        else if(attendanceDetails.isAttended())
         {
             holder.presentOrAbsentImg.setImageResource(R.drawable.present_icon);
             holder.prentOrAbsentText.setText("Attendend");
