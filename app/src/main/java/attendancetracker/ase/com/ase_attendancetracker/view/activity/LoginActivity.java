@@ -1,76 +1,113 @@
 package attendancetracker.ase.com.ase_attendancetracker.view.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import attendancetracker.ase.com.ase_attendancetracker.R;
+import attendancetracker.ase.com.ase_attendancetracker.service.LoginService;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     public static String EXTRA_MESSAGE;
-    String loginUrl = "https://accounts.google.com/signin/v2/sl/pwd?service=ah&passive=true";
-    GoogleSignInClient mGoogleSignInClient;
-    int RC_SIGN_IN = 1000;
+    SharedPreferences sharedPref;
+    private EditText userName,password;
+    private Intent intent;
+    private Boolean isValid;
+    private TextView textViewToChange;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestId()
-//                .requestProfile()
-//                .build();
-//
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-//        signIn();
+        sharedPref = getApplicationContext().getSharedPreferences("ASE", Context.MODE_PRIVATE);
+        intent = getIntent();
+        userName = (EditText) findViewById(R.id.email_address);
+        password = (EditText) findViewById(R.id.password);
+        button = (Button) findViewById(R.id.login);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                new UserAuthenticationTask().execute(userName.getText().toString(), password.getText().toString());
+
+            }
+        });
     }
+    private class UserAuthenticationTask extends AsyncTask<String, String, Boolean> {
 
-//    private void signIn() {
-//        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-//        startActivityForResult(signInIntent, RC_SIGN_IN);
-//    }
-//
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-//        if (requestCode == RC_SIGN_IN) {
-//            // The Task returned from this call is always completed, no need to attach
-//            // a listener.
-//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-//            handleSignInResult(task);
-//        }
-//    }
-//
-//    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-//        try {
-//            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-//
-//            String accountId = account.getId();
-//            Intent intent = new Intent(this, AttendanceListActivity.class);
-//            EditText editText = (EditText) findViewById(R.id.editText);
-//            String message = editText.getText().toString();
-//            intent.putExtra(EXTRA_MESSAGE, message);
-//            startActivity(intent);
-//
-//            // Signed in successfully, show authenticated UI.
-////            updateUI(account);
-//        } catch (ApiException e) {
-//            // The ApiException status code indicates the detailed failure reason.
-//            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-//            Log.w("Sign in failed", "signInResult:failed code=" + e.getStatusCode());
-////            updateUI(null);
-//        }
-//    }
+        ProgressDialog progressDialog;
+        String userId;
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            try {
+                publishProgress("Sleeping...");
+                LoginService loginService= new LoginService(getApplicationContext());
+                String rawValues = loginService.authenticateUser(strings[0],strings[1]);
+                JSONObject jsonObject = new JSONObject(rawValues);
+                userId = jsonObject.getString("user_id");
+                return true;
 
+            }
+            catch(IOException exc) {
+                Log.e("LoginException IOException",exc.toString());
+                return true;
+            }
+            catch (JSONException exc){
+                Log.e("LoginException JSONException",exc.toString());
+                return true;
+            }
+
+        }
+
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(LoginActivity.this,
+                    "ProgressDialog",
+                    "Authenticating...");
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            isValid = aBoolean;
+
+            SharedPreferences.Editor editor = sharedPref.edit();
+
+            if(isValid)
+            {
+                editor.putString("userId",userId);
+                intent = new Intent(LoginActivity.this,HomeActivity.class);
+                startActivity(intent);
+            }
+            else
+            {
+                textViewToChange = (TextView) findViewById(R.id.invalid_login_text);
+                textViewToChange.setText("Invalid Email ID or Password.");
+            }
+            editor.putBoolean("isLogin", isValid);
+            editor.commit();
+            progressDialog.dismiss();
+        }
+
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -80,9 +117,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void sendMessage(View view) {
             Intent intent = new Intent(this, AttendanceListActivity.class);
-            EditText editText = (EditText) findViewById(R.id.editText);
-            String message = editText.getText().toString();
-            intent.putExtra(EXTRA_MESSAGE, message);
+           // EditText editText = (EditText) findViewById(R.id.editText);
+          //  String message = editText.getText().toString();
+            intent.putExtra(EXTRA_MESSAGE, "aaa");
             startActivity(intent);
     }
 
