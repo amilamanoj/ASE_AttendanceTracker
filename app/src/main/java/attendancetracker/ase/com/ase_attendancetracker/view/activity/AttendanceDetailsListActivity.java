@@ -15,11 +15,13 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import attendancetracker.ase.com.ase_attendancetracker.R;
 import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
+import attendancetracker.ase.com.ase_attendancetracker.service.ClassScheduleRestService;
 import attendancetracker.ase.com.ase_attendancetracker.view.adapter.AttendancesListViewAdapter;
 import attendancetracker.ase.com.ase_attendancetracker.view.adapter.ClassScheduleListAdapter;
 
@@ -48,29 +50,24 @@ public class AttendanceDetailsListActivity extends AppCompatActivity {
 
         protected String doInBackground(String... params) {
             publishProgress("Sleeping...");
-            String studentId = params[0];
-            String attendancesUrl = url + "students/" + studentId + "/attendances";
-            OkHttpClient client = new OkHttpClient();
-            String rawAnswer = null;
             try {
-                Request request = new Request.Builder()
-                        .url(attendancesUrl)
-                        .build();
-                Response response = client.newCall(request).execute();
-                rawAnswer = response.body().string();
-            } catch (Exception e) {
-                Log.e("RetrievingAttendancesError", e.getMessage());
+                return new ClassScheduleRestService(getApplicationContext()).getClassScheduleList(params[0]);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
             }
-            return rawAnswer;
+
         }
 
         protected void onPostExecute(String result) {
             progressDialog.dismiss();
-            Gson gson = new GsonBuilder().setDateFormat("MM/dd/yy HH:mm a").setPrettyPrinting().create();
+            if(result != null) {
+                Gson gson = new GsonBuilder().setDateFormat("MM/dd/yy HH:mm a").setPrettyPrinting().create();
 
-             attendanceDetailsArrayList = gson.fromJson(result, new TypeToken<ArrayList<AttendanceDetails>>() {
-            }.getType());
-            Collections.sort(attendanceDetailsArrayList);
+                attendanceDetailsArrayList = gson.fromJson(result, new TypeToken<ArrayList<AttendanceDetails>>() {
+                }.getType());
+                Collections.sort(attendanceDetailsArrayList);
+            }
             adapter = new ClassScheduleListAdapter(attendanceDetailsArrayList);
             recyclerView.setAdapter(adapter);
         }
