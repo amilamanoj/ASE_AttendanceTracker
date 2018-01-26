@@ -41,7 +41,7 @@ import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
         SimpleDateFormat sdf = new SimpleDateFormat("E MMM dd, yyyy hh:mm a");
         holder.date.setText(sdf.format(attendanceDetails.getDate()));
         holder.location.setText("01.11.018, Seminarraum (5611.01.018)");
-        if(attendanceDetails.isAttended())
+        if(attendanceDetails.isPresented())
         {
             holder.presentedImg.setVisibility(View.VISIBLE);
             holder.presentedText.setVisibility(View.VISIBLE);
@@ -51,7 +51,7 @@ import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
             holder.presentedText.setVisibility(View.INVISIBLE);
         }
 
-        if (attendanceDetails.getDate().compareTo(new Date()) > 0)
+        if (attendanceDetails.getDate().compareTo(new Date()) > 0 && !attendanceDetails.isAttended())
         {
             holder.presentOrAbsentImg.setImageResource(R.drawable.not_yet_held_icon);
             holder.prentOrAbsentText.setText("Not yet held");
