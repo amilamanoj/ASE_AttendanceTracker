@@ -19,13 +19,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.AttendanceListActivity"
-            android:parentActivityName=".view.activity.LoginActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.activity.LoginActivity" />
-        </activity>
-        <activity
             android:name=".view.activity.DisplayQRCodeActivity"
             android:parentActivityName=".view.activity.DisplayQRCodeActivity">
             <meta-data
@@ -36,9 +29,11 @@
             android:name=".view.activity.HomeActivity"
             android:label="Advance Software Engineering" />
         <activity android:name=".view.activity.AttendanceDetailsListActivity" />
-        <activity android:name=".view.activity.SchedulePieChartActivity">
-
-        </activity>
+        <activity android:name=".view.activity.SchedulePieChartActivity"></activity>
+        <activity
+            android:name=".view.activity.TutorActivity"
+            android:label="@string/title_activity_tutor"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

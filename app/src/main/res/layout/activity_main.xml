@@ -28,14 +28,14 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="Email Address"
+            android:text="Tutor1"
             android:paddingLeft="30dp"
             android:id="@+id/email_address"
             android:background="@drawable/rounded_white"/>
 
         <EditText
             android:inputType="textPassword"
-            android:text="Password"
+            android:text="1234"
             android:id="@+id/password"
             android:paddingLeft="30dp"
             android:layout_marginTop="20dp"

@@ -13,14 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
 import attendancetracker.ase.com.ase_attendancetracker.R;
+import attendancetracker.ase.com.ase_attendancetracker.service.HttpClient;
 import attendancetracker.ase.com.ase_attendancetracker.service.LoginService;
 
 
@@ -43,8 +42,8 @@ public class LoginActivity extends AppCompatActivity {
 
         if(sharedPref.getBoolean("isLogin", false))
         {
-            intent = new Intent(LoginActivity.this,HomeActivity.class);
-            startActivity(intent);
+//            intent = new Intent(LoginActivity.this,HomeActivity.class);
+//            startActivity(intent);
         }
 
         intent = getIntent();
@@ -63,16 +62,19 @@ public class LoginActivity extends AppCompatActivity {
 
         ProgressDialog progressDialog;
         String userId, sessionId;
+        boolean isStudent;
+
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
                 publishProgress("Sleeping...");
-                LoginService loginService= new LoginService(getApplicationContext());
-                String rawValues = loginService.authenticateUser(strings[0],strings[1]);
+                HttpClient client= HttpClient.getInstance(getApplicationContext());
+                String rawValues = client.authenticateUser(strings[0],strings[1]);
                 if(rawValues != null) {
                     JSONObject jsonObject = new JSONObject(rawValues);
-                    userId = jsonObject.getJSONObject("user").getJSONObject("raw").getString("id");
-                    sessionId = jsonObject.getString("id");
+                    userId = jsonObject.getString("userId");
+                    sessionId = jsonObject.getString("sessionId");
+                    isStudent = jsonObject.getBoolean("student");
                     return true;
                 }
                 else
@@ -107,7 +109,11 @@ public class LoginActivity extends AppCompatActivity {
             {
                 editor.putString("userId",userId);
                 editor.putString("sessionId",sessionId);
-                intent = new Intent(LoginActivity.this,HomeActivity.class);
+                if(isStudent){
+                    intent = new Intent(LoginActivity.this,HomeActivity.class);
+                }else{
+                    intent = new Intent(LoginActivity.this, TutorActivity.class);
+                }
                 startActivity(intent);
             }
             else

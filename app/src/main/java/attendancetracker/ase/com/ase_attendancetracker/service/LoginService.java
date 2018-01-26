@@ -2,37 +2,38 @@ package attendancetracker.ase.com.ase_attendancetracker.service;
 
 import android.content.Context;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.restlet.resource.ClientResource;
 
 import java.io.IOException;
 
 import attendancetracker.ase.com.ase_attendancetracker.util.PropertyUtil;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by Sangeeta on 15-01-2018.
  */
 
 public class LoginService {
-    String url;
+    private String url;
+    private OkHttpClient client;
 
-    public LoginService(Context context) throws IOException {
+    protected LoginService(Context context, OkHttpClient client) throws IOException {
         url = PropertyUtil.getProperty("classScheduleURL",context);
+        url = url +"login";
+        this.client = client;
     }
 
-    public String authenticateUser(String email, String password) throws IOException, JSONException {
-        url = url +"login";
+    protected String authenticateUser(String email, String password) throws IOException, JSONException {
         JSONObject json = new JSONObject();
         json.put("email",email);
         json.put("password",password);
-        RequestBody body = RequestBody.create(com.squareup.okhttp.MediaType.parse("application/json; charset=utf-8"), json.toString());
-        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json.toString());
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)

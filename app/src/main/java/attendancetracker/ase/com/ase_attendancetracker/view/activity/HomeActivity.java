@@ -26,6 +26,7 @@ import java.util.Date;
 import attendancetracker.ase.com.ase_attendancetracker.R;
 import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
 import attendancetracker.ase.com.ase_attendancetracker.service.ClassScheduleRestService;
+import attendancetracker.ase.com.ase_attendancetracker.service.HttpClient;
 import attendancetracker.ase.com.ase_attendancetracker.view.adapter.ClassScheduleListAdapter;
 
 public class HomeActivity extends AppCompatActivity {
@@ -84,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             publishProgress("Sleeping...");
             try {
-                return new ClassScheduleRestService(getApplicationContext()).getClassScheduleList(params[0],params[1]);
+                return HttpClient.getInstance(getApplicationContext()).getClassScheduleList(params[0],params[1]);
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;

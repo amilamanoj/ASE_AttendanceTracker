@@ -3,4 +3,5 @@
     <string name="email_tooltip">E-Mail</string>
     <string name="password_tooltip">Password</string>
     <string name="button_login">Login</string>
+    <string name="title_activity_tutor">TutorActivity</string>
 </resources>

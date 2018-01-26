@@ -21,10 +21,11 @@ import java.text.SimpleDateFormat;
 
 import attendancetracker.ase.com.ase_attendancetracker.R;
 import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
+import attendancetracker.ase.com.ase_attendancetracker.service.HttpClient;
+import attendancetracker.ase.com.ase_attendancetracker.util.PropertyUtil;
 
 public class DisplayQRCodeActivity extends AppCompatActivity {
 
-    private String urlQR = "https://radiant-land-185414.appspot.com/rest/";
     URL url;
 
     TextView date, location, message;
@@ -47,7 +48,13 @@ public class DisplayQRCodeActivity extends AppCompatActivity {
 
 
         attendanceDetails = (AttendanceDetails) intent.getSerializableExtra("attendanceDetails");
-        String qrCodeUrl = urlQR + "token/" + userId + "/week/" +attendanceDetails.getWeekId();
+        String baseUrl = "";
+        try {
+            baseUrl = PropertyUtil.getProperty("classScheduleURL", this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String qrCodeUrl = baseUrl + "token/" + userId + "/week/" +attendanceDetails.getWeekId();
         url = null;
         try {
             url = new URL(qrCodeUrl);
@@ -65,14 +72,12 @@ public class DisplayQRCodeActivity extends AppCompatActivity {
         protected Bitmap doInBackground(String... params) {
             Bitmap bmp = null;
             try {
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.setRequestProperty("cookie","SESSION-COOKIE="+params[0]);
-                 bmp = BitmapFactory.decodeStream(httpURLConnection.getInputStream());
-            } catch (IOException e) {
+                byte[] qrCode = HttpClient.getInstance(DisplayQRCodeActivity.this).getQRCode(url);
+                 bmp = BitmapFactory.decodeByteArray(qrCode, 0, qrCode.length);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             return bmp;
-//
         }
 
         protected void onPreExecute() {
