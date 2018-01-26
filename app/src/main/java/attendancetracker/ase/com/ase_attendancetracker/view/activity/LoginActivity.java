@@ -40,6 +40,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         sharedPref = getApplicationContext().getSharedPreferences("ASE", Context.MODE_PRIVATE);
+
+        if(sharedPref.getBoolean("isLogin", false))
+        {
+            intent = new Intent(LoginActivity.this,HomeActivity.class);
+            startActivity(intent);
+        }
+
         intent = getIntent();
         userName = (EditText) findViewById(R.id.email_address);
         password = (EditText) findViewById(R.id.password);
@@ -55,25 +62,30 @@ public class LoginActivity extends AppCompatActivity {
     private class UserAuthenticationTask extends AsyncTask<String, String, Boolean> {
 
         ProgressDialog progressDialog;
-        String userId;
+        String userId, sessionId;
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
                 publishProgress("Sleeping...");
                 LoginService loginService= new LoginService(getApplicationContext());
                 String rawValues = loginService.authenticateUser(strings[0],strings[1]);
-                JSONObject jsonObject = new JSONObject(rawValues);
-                userId = jsonObject.getString("user_id");
-                return true;
+                if(rawValues != null) {
+                    JSONObject jsonObject = new JSONObject(rawValues);
+                    userId = jsonObject.getJSONObject("user").getJSONObject("raw").getString("id");
+                    sessionId = jsonObject.getString("id");
+                    return true;
+                }
+                else
+                    return false;
 
             }
             catch(IOException exc) {
                 Log.e("LoginException IOException",exc.toString());
-                return true;
+                return false;
             }
             catch (JSONException exc){
                 Log.e("LoginException JSONException",exc.toString());
-                return true;
+                return false;
             }
 
         }
@@ -94,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
             if(isValid)
             {
                 editor.putString("userId",userId);
+                editor.putString("sessionId",sessionId);
                 intent = new Intent(LoginActivity.this,HomeActivity.class);
                 startActivity(intent);
             }
@@ -111,17 +124,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        updateUI(account);
     }
 
-    public void sendMessage(View view) {
-            Intent intent = new Intent(this, AttendanceListActivity.class);
-           // EditText editText = (EditText) findViewById(R.id.editText);
-          //  String message = editText.getText().toString();
-            intent.putExtra(EXTRA_MESSAGE, "aaa");
-            startActivity(intent);
-    }
 
 
 }

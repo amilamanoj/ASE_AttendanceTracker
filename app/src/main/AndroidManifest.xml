@@ -34,8 +34,11 @@
         </activity>
         <activity
             android:name=".view.activity.HomeActivity"
-            android:label="Advance Software Engineering"></activity>
-        <activity android:name=".view.activity.AttendanceDetailsListActivity"></activity>
+            android:label="Advance Software Engineering" />
+        <activity android:name=".view.activity.AttendanceDetailsListActivity" />
+        <activity android:name=".view.activity.SchedulePieChartActivity">
+
+        </activity>
     </application>
 
 </manifest>

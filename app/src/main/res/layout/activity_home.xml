@@ -64,6 +64,34 @@
                 android:text="Information available about the status of attendance and status of presentation"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp"
+            android:background="@drawable/layout_bg"
+            android:layout_marginTop="10dp"
+            android:id="@+id/attendance_analysis">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="225dp"
+                android:src="@drawable/bonus_analysis" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:text="Click to view the bonus status"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Know the amount of tasks left to get the bonus"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
     

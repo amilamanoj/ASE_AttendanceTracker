@@ -1,100 +1,93 @@
 package attendancetracker.ase.com.ase_attendancetracker.view.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.Proxy;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 
 import attendancetracker.ase.com.ase_attendancetracker.R;
+import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
 
 public class DisplayQRCodeActivity extends AppCompatActivity {
 
     private String urlQR = "https://radiant-land-185414.appspot.com/rest/";
     URL url;
 
+    TextView date, location, message;
+    AttendanceDetails attendanceDetails;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_qrcode);
         Intent intent = getIntent();
-        String studentId = intent.getStringExtra(AttendanceListActivity.STUDENT_ID);
-        int weekId = intent.getIntExtra(AttendanceListActivity.WEEK_ID,0);
-        String qrCodeUrl = urlQR + "token/" + studentId + "/week/" +weekId;
+        date = findViewById(R.id.date);
+        location = findViewById(R.id.location);
+        message = findViewById(R.id.message);
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("ASE", Context.MODE_PRIVATE);
+        final String userId = sharedPref.getString("userId","");
+
+        final String sessionId = sharedPref.getString("sessionId","");
+        //String studentId = intent.getStringExtra(AttendanceListActivity.STUDENT_ID);
+        //int weekId = intent.getIntExtra(AttendanceListActivity.WEEK_ID,0);
+
+
+        attendanceDetails = (AttendanceDetails) intent.getSerializableExtra("attendanceDetails");
+        String qrCodeUrl = urlQR + "token/" + userId + "/week/" +attendanceDetails.getWeekId();
         url = null;
         try {
             url = new URL(qrCodeUrl);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-//
-//
-//        WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
-//        Display display = manager.getDefaultDisplay();
-//        Point point = new Point();
-//        display.getSize(point);
-//        int width = point.x;
-//        int height = point.y;
-//        int smallerDimension = width < height ? width : height;
-//        smallerDimension = smallerDimension * 1/2;
-//
-//        //Encode with a QR Code image
-//        QRCodeEncoder qrCodeEncoder = new QRCodeEncoder(token,
-//                null,
-//                Contents.Type.TEXT,
-//                BarcodeFormat.QR_CODE.toString(),
-//                smallerDimension);
-//        try {
-////            Bitmap bitmap = qrCodeEncoder.encodeAsBitmap();
-//
-//            myImage.setImageBitmap(bmp);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        new GetQRCodeHandler().execute();
+        new GetQRCodeHandler().execute(sessionId);
 
 
     }
 
     private class GetQRCodeHandler extends AsyncTask<String, String, Bitmap> {
+        ProgressDialog progressDialog;
 
         protected Bitmap doInBackground(String... params) {
             Bitmap bmp = null;
             try {
-                 bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestProperty("cookie","SESSION-COOKIE="+params[0]);
+                 bmp = BitmapFactory.decodeStream(httpURLConnection.getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return bmp;
-//            publishProgress("Sleeping...");
-//            String studentId = params[0];
-//            String weekId = params [1];
-//            String qrCodeUrl = url + "token/" + studentId + "/week/" +weekId;
-//            OkHttpClient client = new OkHttpClient();
-//            String rawAnswer = null;
-//            try {
-//                Request request = new Request.Builder()
-//                        .url(qrCodeUrl)
-//                        .build();
-//                Response response = client.newCall(request).execute();
-//                rawAnswer = response.body().string();
-//            } catch (Exception e) {
-//                Log.e("RetrievingAttendancesError", e.getMessage());
-//            }
-//            return rawAnswer;
+//
         }
 
+        protected void onPreExecute() {
+            progressDialog = ProgressDialog.show(DisplayQRCodeActivity.this,
+                    "ProgressDialog",
+                    "Loading");
+        }
         @Override
         protected void onPostExecute(Bitmap map) {
+            SimpleDateFormat sdf = new SimpleDateFormat("E MMM dd, yyyy hh:mm a");
+            date.setText(sdf.format(attendanceDetails.getDate()));
+            message.setText(message.getText() +" "+ attendanceDetails.getWeekId() + ".");
             ImageView imageView = (ImageView) findViewById(R.id.imageView1);
             imageView.setImageBitmap(map);
+            progressDialog.dismiss();
         }
     }
 }

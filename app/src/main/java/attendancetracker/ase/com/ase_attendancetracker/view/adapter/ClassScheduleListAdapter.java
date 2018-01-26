@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -37,7 +38,8 @@ import attendancetracker.ase.com.ase_attendancetracker.model.AttendanceDetails;
     public void onBindViewHolder(ClassScheduleHolder holder, int position) {
         AttendanceDetails attendanceDetails = attendanceDetailsList.get(position);
         holder.weekNumber.setText("Week "+attendanceDetails.getWeekId());
-        holder.date.setText(attendanceDetails.getDate().toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("E MMM dd, yyyy hh:mm a");
+        holder.date.setText(sdf.format(attendanceDetails.getDate()));
         holder.location.setText("01.11.018, Seminarraum (5611.01.018)");
         if(attendanceDetails.isAttended())
         {

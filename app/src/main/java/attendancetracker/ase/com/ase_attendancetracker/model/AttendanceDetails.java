@@ -2,13 +2,14 @@ package attendancetracker.ase.com.ase_attendancetracker.model;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Sangeeta on 17-12-2017.
  */
 
-public class AttendanceDetails implements Comparable{
+public class AttendanceDetails implements Comparable, Serializable{
 
 
     private String id;
